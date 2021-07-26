@@ -42,11 +42,11 @@ window.onload = function () {
     fnHandlePress = function (event) {
         let oTableRow = event.currentTarget;
         let sId = oTableRow.getAttribute("id");
-        let oSelectedActor = aActors.find(function (oActor) {
-            return oActor.index == sId;
+        let oSelectedActor = aActors.find(function(oActor) {
+          return oActor.index == sId;
         });
         oSelectedActor.renderDetail();
-    }
+      }
 
 }
 

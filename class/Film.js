@@ -4,6 +4,7 @@ class Film {
   }
 
     static renderDetailTableRow (aData) {
+      if(aData.length > 0) {
         return `
         <table class="table caption-top">
         <thead>
@@ -30,6 +31,9 @@ class Film {
               }).join("")}
               </table>
         `;
+      } else {
+        return `<span>Результатов не найдено ¯\_(ツ)_/¯</span>`
+      }
        
       }
 }
