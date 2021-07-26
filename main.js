@@ -1,16 +1,21 @@
+loading()
+
+
+
 window.onload = function () {
+
     let aActors;
     let fnRender = function (Actors) {
         let html = `
-        <table class="table table-dark table-striped table-hover">
+        <table class="table table-dark table-striped table-hover custom-table shadow">
             <thead>
                 <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Genser</th>
-                <th scope="col">Year</th>
-                <th scope="col">Height</th>
-                <th scope="col">Mass</th>
-                <th scope="col">Planet</th>
+                    <th scope="col">Имя персонажа</th>
+                    <th scope="col">Пол</th>
+                    <th scope="col">Год рождения</th>
+                    <th scope="col">Рост</th>
+                    <th scope="col">Вес</th>
+                    <th scope="col">Домашняя планета</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,22 +29,29 @@ window.onload = function () {
     $.ajax({
         url: "https://swapi.dev/api/people/",
         success: (Response) => {
-           let aActorsData = Response.results
-           aActors = aActorsData.map((aActorsData, index) => {
-               return new Actor(aActorsData, index)
-           })
-           fnRender(aActors)
-           console.log(aActors)
+            let aActorsData = Response.results
+            aActors = aActorsData.map((aActorsData, index) => {
+                return new Actor(aActorsData, index)
+            })
+            fnRender(aActors)
+            loading()
+            // console.log(aActors)
         }
     });
 
-    fnHandlePress = function(event) {
-        let oTableRow = event.currentTarget
-        let sId = oTableRow.getAttribute('id')
-        let oSelectedActor = aActors.find(function(oActor) {
-            return oActor.index == sId
-        })
+    fnHandlePress = function (event) {
+        let oTableRow = event.currentTarget;
+        let sId = oTableRow.getAttribute("id");
+        let oSelectedActor = aActors.find(function (oActor) {
+            return oActor.index == sId;
+        });
+        oSelectedActor.renderDetail();
     }
+
+}
+
+function loading() {
+    document.getElementById('loading').classList.toggle('d-none');
 }
 
 
