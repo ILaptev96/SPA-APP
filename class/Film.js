@@ -1,11 +1,11 @@
 class Film {
-  constructor (oData) {
+  constructor(oData) {
 
   }
 
-    static renderDetailTableRow (aData) {
-      if(aData.length > 0) {
-        return `
+  static renderDetailTableRow(aData) {
+    if (aData.length > 0) {
+      return `
         <table class="table caption-top">
         <thead>
           <tr>
@@ -17,7 +17,7 @@ class Film {
         </tr>
         </thead>
               ${aData.map(oData => {
-                return `
+        return `
                 <tbody>
                   <tr>
                     <th>${oData.title}</th>
@@ -28,12 +28,12 @@ class Film {
                   </tr>
                   </tbody> 
               `;
-              }).join("")}
+      }).join("")}
               </table>
         `;
-      } else {
-        return `<span>Результатов не найдено ¯\_(ツ)_/¯</span>`
-      }
-       
-      }
+    } else {
+      return `<span>Результатов не найдено ¯\_(ツ)_/¯</span>`
+    }
+
+  }
 }

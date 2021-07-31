@@ -19,9 +19,11 @@ class Actor {
         this.filmsData = []
         this.html
 
-       /* this.getHomeworld()
-        this.getFilms()
-        this.getStarships()*/
+
+        this.getHomeworld()
+        /* 
+         this.getFilms()
+         this.getStarships()*/
         // this.renderDetail()
 
     }
@@ -79,25 +81,13 @@ class Actor {
             })
 
             return oPromise
-        })
+        });
         return Promise.all(aPromises).then((aData) => {
             this.starshipsData = aData
             // console.log(this.starshipsData)
         })
     }
 
-    renderTableRow() {
-        return `
-        <tr id="${this.index}" onclick="fnHandlePress(event)">
-        <th>${this.name}</th>
-        <td>${this.gender}</td>
-        <td>${this.birth_year}</td>
-        <td>${this.height}</td>
-        <td>${this.mass}</td>
-        <td>${this.homeworldData.name}</td>
-        </tr>
-        `
-    }
 
     renderDetail() {
 
@@ -130,6 +120,19 @@ class Actor {
 
     static HTML = '' //Переменная для сохранения базового html шаблона с ключами
 
+    renderTableRow() {
+        return `
+        <tr id="${this.index}" onclick="fnHandlePress(event)">
+        <th>${this.name}</th>
+        <td>${this.gender}</td>
+        <td>${this.birth_year}</td>
+        <td>${this.height}</td>
+        <td>${this.mass}</td>
+        <td>${this.homeworldData.name}</td>
+        </tr>
+        `
+    }
+
     static renderTable(aActors) {
         let html = `
         <table class="table table-dark table-striped table-hover custom-table shadow">
@@ -149,6 +152,43 @@ class Actor {
         </table>
         `
         document.querySelector('.list').innerHTML = html
+    }
+
+    static renderDetailTableRow(aData) {
+
+        if (aData.length > 0) {
+            return `
+          <table class="table table-dark table-striped table-hover custom-table shadow">
+          <thead>
+              <tr>
+                  <th scope="col">Имя персонажа</th>
+                  <th scope="col">Пол</th>
+                  <th scope="col">Год рождения</th>
+                  <th scope="col">Рост</th>
+                  <th scope="col">Вес</th>
+                  <th scope="col">Домашняя планета</th>
+              </tr>
+          </thead>
+          <tbody>
+       ${aData.map(oData => {
+                return `
+                    <tr id="${this.index}" onclick="fnHandlePress(event)">
+            <th>${oData.name}</th>
+            <td>${oData.gender}</td>
+            <td>${oData.birth_year}</td>
+            <td>${oData.height}</td>
+            <td>${oData.mass}</td>
+            <td> oData.homeworldData.name </td>
+            </tr>
+                  `;
+            }).join("")}
+          </tbody>
+          </table>
+            `;
+        } else {
+            return `<span>Результатов не найдено ¯\_(ツ)_/¯</span>`
+        }
+
     }
 
 }

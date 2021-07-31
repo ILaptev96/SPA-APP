@@ -22,17 +22,17 @@
 
     
         <div id="app">
-            <div class="header">
+            <div class="header mb-3">
                 <button id="btn-back" class="btn btn-light"><i class="fas fa-arrow-left"></i></button>
             </div>
-            <div class="list mt-3"></div>
+            <div class="list"></div>
             <div class="detail"></div>
         </div>
 
     </div>
 
 
-    <div class="container mt-5 d-none" id="actor-detail">
+    <div class="container d-none" id="actor-detail">
         <div class="info-scroll mb-2" id="test">
         <div class="col-lg-8 mb-4">
             <div class="input-group mb-1">
@@ -129,7 +129,91 @@
                 ${starshipsList}
         </div>
     </div>
-    <button onclick="Actor.hideOrShow();" class="btn btn-light"><i class="fas fa-arrow-left"></i></button>
+ <!--    <button onclick="Actor.hideOrShow();" class="btn btn-light"><i class="fas fa-arrow-left"></i></button> -->
+    </div>
+
+    <div class="container d-none" id="starship-detail">
+        <div class="info-scroll mb-2" id="test">
+        <div class="col-lg-8 mb-4">
+            <div class="input-group mb-1">
+                <span class="input-group-text border-0"><i class="fas fa-rocket"></i></span>
+                <input type="text" class="form-control border-0 ps-0" value="${name}" disabled>
+            </div>
+        </div>
+        <div class="row col-lg-8 col-12">
+            <div class="col-lg-6 col-12 mb-4 border-0">
+                <table class="table caption-top">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Модель</th>
+                            <td>${model}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">производитель</th>
+                            <td>${manufacturer}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Стоимость</th>
+                            <td>${cost_in_credits}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">экипаж</th>
+                            <td>${crew}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">вместимость</th>
+                            <td>${cargo_capacity}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">материалы</th>
+                            <td>${consumables}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-6 col-12 mb-4 border-0">
+                <table class="table caption-top">
+                    <tbody>
+                        <tr>
+                            <th scope="row">длина</th>
+                            <td>${length}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Скорость</th>
+                            <td>${max_atmosphering_speed}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">экипаж</th>
+                            <td>${passengers}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Рейтинг</th>
+                            <td>${hyperdrive_rating}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Класс</th>
+                            <td>${starship_class}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">MGLT</th>
+                            <td>${MGLT}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+ 
+        <div class="col-lg-8 col-12 mb-4">
+            <h6 class="text-secondary">Фильмы</h4>
+                        ${filmsList}
+        </div>
+        <div class="col-lg-8 col-12 mb-4">
+            <h6 class="text-secondary">Пилоты</h4>
+                ${pilotsList}
+        </div>
+    </div>
+ <!--    <button onclick="Actor.hideOrShow();" class="btn btn-light"><i class="fas fa-arrow-left"></i></button> -->
     </div>
 
 

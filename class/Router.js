@@ -25,22 +25,28 @@ class Router {
             case "#actors":
                 Actor.renderTable(oModel.actors)
                 break;
-            //Render
-            //Show
             case "#actorDetails":
                 let oSelectedActor = oModel.actors.find(function (oActor, index) {
                     return sId == index
                 })
-                Promise.all([oSelectedActor.getHomeworld(),oSelectedActor.getFilms(),oSelectedActor.getStarships()]
+                Promise.all([oSelectedActor.getHomeworld(), oSelectedActor.getFilms(),oSelectedActor.getStarships()]
                 ).then(function() {
                     oSelectedActor.renderDetail()
-                    loading()
                 })
                 break
             case "#starships":
                 Starship.renderTable(oModel.starships)
                 break;
-            case "#starshipDetail":
+            case "#starshipDetails":
+                let oSelectedStarships = oModel.starships.find(function (oStarship, index) {
+                    return sId == index
+                })                
+                Promise.all([oSelectedStarships.getPilots(),oSelectedStarships.getFilms()]
+                ).then(function() {
+                    oSelectedStarships.renderDetail()
+                }) 
+          
+                break
 
         }
     }

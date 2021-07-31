@@ -1,5 +1,6 @@
 class Starship {
-  constructor(oData) {
+  constructor(oData, index) {
+    this.index = index
     this.name = oData.name
     this.model = oData.model
     this.manufacturer = oData.manufacturer
@@ -14,8 +15,11 @@ class Starship {
     this.MGLT = oData.MGLT
     this.starship_class = oData.starship_class
 
+
     this.pilotsUrls = oData.pilots
     this.filmsUrls = oData.films
+
+
 
     this.filmsData = []
     this.pilotsData = []
@@ -43,27 +47,30 @@ class Starship {
   }
 
   getPilots() {
+
     let aPromises = this.pilotsUrls.map(function (sUrl) {
       let oPromise = new Promise((resolve, reject) => {
         $.ajax({
           url: sUrl,
           success: (oResponse) => {
-            resolve(oResponse)
+            resolve(oResponse);
           },
           error: (oError) => {
-            reject(oError)
+            reject(oError);
           }
-        })
-      })
+        });
+      });
 
-      return oPromise
-    })
+      return oPromise;
+    });
     return Promise.all(aPromises).then((aData) => {
-      this.pilotsData = aData
-    })
+      console.log(aData)
+      this.pilotsData = aData;
+    });
   }
 
- 
+
+
   static renderDetailTableRow(aData) {
     if (aData.length > 0) {
       return `
@@ -78,9 +85,8 @@ class Starship {
       </tr>
       </thead>
   
-            ${
-        aData.map(oData => {
-          return `
+            ${aData.map(oData => {
+        return `
               <tbody>
                 <tr>
                   <th>${oData.name}</th>
@@ -91,7 +97,7 @@ class Starship {
                 </tr>
                 </tbody> 
             `;
-        }).join("")
+      }).join("")
 
         }
             </table>
@@ -101,26 +107,6 @@ class Starship {
       return `<span>Результатов не найдено ¯\_(ツ)_/¯</span>`
     }
   }
-
-  
-  renderTableRow() {
-    return `
-    <tr id="${this.index}" onclick="fnHandlePress(event)">
-    <th>${this.name}</th>
-    <td>${this.model}</td>
-    <td>${this.manufacturer}</td>
-    <td>${this.length}</td>
-    <td>${this.max_atmosphering_speed}</td>
-    <td>${this.crew}</td>
-    <td>${this.passengers}</td>
-    <td>${this.cargo_capacity}</td>
-    <td>${this.consumables}</td>
-    <td>${this.hyperdrive_rating}</td>
-    <td>${this.MGLT}</td>
-    <td>${this.starship_class}</td>
-    </tr>
-    `
-}
 
   static renderTable(aStarship) {
     let html = `
@@ -150,5 +136,57 @@ class Starship {
     `
     document.querySelector('.list').innerHTML = html
   }
+
+  renderTableRow() {
+    return `
+    <tr id="${this.index}" onclick="fnHandlePress(event)">
+    <th>${this.name}</th>
+    <td>${this.model}</td>
+    <td>${this.manufacturer}</td>
+    <td>${this.length}</td>
+    <td>${this.max_atmosphering_speed}</td>
+    <td>${this.crew}</td>
+    <td>${this.passengers}</td>
+    <td>${this.cargo_capacity}</td>
+    <td>${this.consumables}</td>
+    <td>${this.hyperdrive_rating}</td>
+    <td>${this.MGLT}</td>
+    <td>${this.starship_class}</td>
+    </tr>
+    `
+  }
+
+  renderDetail() {
+
+    if (!Starship.HTML)
+      Starship.HTML = document.querySelector("#starship-detail").innerHTML //Получаем шаблон 
+    let sTemplate = Starship.HTML
+
+
+
+    //Заполняем шаблон
+    Object.keys(this).forEach((sKey) => {
+      sTemplate = sTemplate.replace('$' + `{${sKey}}`, this[sKey])
+    })
+    sTemplate = sTemplate.replace("${filmsList}", Film.renderDetailTableRow(this.filmsData))
+    sTemplate = sTemplate.replace("${pilotsList}", Actor.renderDetailTableRow(this.pilotsData))
+
+
+    //Показываем шаблон
+    document.querySelector("#starship-detail").innerHTML = sTemplate
+    Starship.hideOrShow()
+  }
+
+  static hideOrShow() {
+    document.querySelector(".list").classList.toggle('d-none')
+    document.querySelector("#starship-detail").classList.toggle('d-none')
+  }
+
+
+  static HTML = ''
+
+
+
+
 
 }

@@ -39,3 +39,10 @@ td {
     max-height: 600px;
     overflow-y: auto;
 }
+
+#loading {
+    position: absolute;
+    margin: 0 auto;
+    top: 1%;
+    left: 50%;
+}

@@ -20,14 +20,11 @@ let oActorsAjax = $.ajax({
 });
 let oStarshipsAjax = $.ajax({
     url: "https://swapi.dev/api/starships/",
-    success: (Response) => {
-        let aStarshipsData = Response.results
-        oModel.starships = aStarshipsData.map((aStarshipsData, index) => {
-            return new Starship(aStarshipsData, index)
-        })
-        // fnRender(aActors)
-        //loading()
-        // console.log(aActors)
+    success: function (oResponse) {
+        let aStarshipsData = oResponse.results;
+        oModel.starships = aStarshipsData.map((oStarshipData, index) => {
+            return new Starship(oStarshipData, index);
+        });
     }
 });
 
@@ -38,7 +35,6 @@ Promise.all([oActorsAjax, oStarshipsAjax]).then(() => {
 
 window.onload = function () {
     fnHandlePress = function (event) {
-        loading()
         let oTableRow = event.currentTarget;
         let sId = oTableRow.getAttribute("id");
         let fnDefinaRoute = function (sCurrentHash) {
@@ -46,7 +42,7 @@ window.onload = function () {
                 case "#actors":
                     return "#actorDetails"
                 case "#starships":
-                    return "#starshipsDetails"
+                    return "#starshipDetails"
 
             }
         }
