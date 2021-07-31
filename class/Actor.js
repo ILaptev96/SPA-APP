@@ -19,9 +19,9 @@ class Actor {
         this.filmsData = []
         this.html
 
-        this.getHomeworld()
+       /* this.getHomeworld()
         this.getFilms()
-        this.getStarships()
+        this.getStarships()*/
         // this.renderDetail()
 
     }
@@ -33,7 +33,7 @@ class Actor {
         return this[sProperty]
     }
     getHomeworld() {
-        $.ajax({
+        return $.ajax({
             url: this.homeworldUrl,
             async: false,
             success: (Response) => {
@@ -58,7 +58,7 @@ class Actor {
 
             return oPromise
         })
-        Promise.all(aPromises).then((aData) => {
+        return Promise.all(aPromises).then((aData) => {
             this.filmsData = aData
             //  console.log(this.filmsData)
         })
@@ -80,7 +80,7 @@ class Actor {
 
             return oPromise
         })
-        Promise.all(aPromises).then((aData) => {
+        return Promise.all(aPromises).then((aData) => {
             this.starshipsData = aData
             // console.log(this.starshipsData)
         })
@@ -124,10 +124,31 @@ class Actor {
     }
 
     static hideOrShow() {
-        document.querySelector("#app").classList.toggle('d-none')
+        document.querySelector(".list").classList.toggle('d-none')
         document.querySelector("#actor-detail").classList.toggle('d-none')
     }
 
     static HTML = '' //Переменная для сохранения базового html шаблона с ключами
+
+    static renderTable(aActors) {
+        let html = `
+        <table class="table table-dark table-striped table-hover custom-table shadow">
+            <thead>
+                <tr>
+                    <th scope="col">Имя персонажа</th>
+                    <th scope="col">Пол</th>
+                    <th scope="col">Год рождения</th>
+                    <th scope="col">Рост</th>
+                    <th scope="col">Вес</th>
+                    <th scope="col">Домашняя планета</th>
+                </tr>
+            </thead>
+            <tbody>
+            ${aActors.map(oActor => oActor.renderTableRow()).join('')}
+            </tbody>
+        </table>
+        `
+        document.querySelector('.list').innerHTML = html
+    }
 
 }

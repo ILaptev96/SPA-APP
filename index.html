@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Spa App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="style/style.css">
@@ -19,7 +19,16 @@
                 <span class="visually-hidden"></span>
             </div>
         </div>
-        <div id="app"></div>
+
+    
+        <div id="app">
+            <div class="header">
+                <button id="btn-back" class="btn btn-light"><i class="fas fa-arrow-left"></i></button>
+            </div>
+            <div class="list mt-3"></div>
+            <div class="detail"></div>
+        </div>
+
     </div>
 
 
@@ -129,6 +138,9 @@
     <script src="class/Actor.js"></script>
     <script src="class/Film.js"></script>
     <script src="class/Starship.js"></script>
+    <script src="class/Router.js"></script>
+    <script src="model/Model.js"></script>
+
     <script src="main.js"></script>
 
 </body>

@@ -1,52 +1,63 @@
 loading()
 
+let oRouter = new Router()
+let oModel = new Model();
+let sHash = window.location.hash
+if (!sHash)
+    sHash = '#actors'
 
+let oActorsAjax = $.ajax({
+    url: "https://swapi.dev/api/people/",
+    success: (Response) => {
+        let aActorsData = Response.results
+        oModel.actors = aActorsData.map((aActorsData, index) => {
+            return new Actor(aActorsData, index)
+        })
+        //fnRender(aActors)
+        // loading()
+        // console.log(aActors)
+    }
+});
+let oStarshipsAjax = $.ajax({
+    url: "https://swapi.dev/api/starships/",
+    success: (Response) => {
+        let aStarshipsData = Response.results
+        oModel.starships = aStarshipsData.map((aStarshipsData, index) => {
+            return new Starship(aStarshipsData, index)
+        })
+        // fnRender(aActors)
+        //loading()
+        // console.log(aActors)
+    }
+});
+
+Promise.all([oActorsAjax, oStarshipsAjax]).then(() => {
+    oRouter.init(sHash)
+    loading()
+})
 
 window.onload = function () {
-
-    let aActors;
-    let fnRender = function (Actors) {
-        let html = `
-        <table class="table table-dark table-striped table-hover custom-table shadow">
-            <thead>
-                <tr>
-                    <th scope="col">Имя персонажа</th>
-                    <th scope="col">Пол</th>
-                    <th scope="col">Год рождения</th>
-                    <th scope="col">Рост</th>
-                    <th scope="col">Вес</th>
-                    <th scope="col">Домашняя планета</th>
-                </tr>
-            </thead>
-            <tbody>
-            ${Actors.map(oActor => oActor.renderTableRow()).join('')}
-            </tbody>
-        </table>
-        `
-        document.querySelector('#app').innerHTML = html
-
-    }
-    $.ajax({
-        url: "https://swapi.dev/api/people/",
-        success: (Response) => {
-            let aActorsData = Response.results
-            aActors = aActorsData.map((aActorsData, index) => {
-                return new Actor(aActorsData, index)
-            })
-            fnRender(aActors)
-            loading()
-            // console.log(aActors)
-        }
-    });
-
     fnHandlePress = function (event) {
+        loading()
         let oTableRow = event.currentTarget;
         let sId = oTableRow.getAttribute("id");
-        let oSelectedActor = aActors.find(function(oActor) {
-          return oActor.index == sId;
-        });
-        oSelectedActor.renderDetail();
-      }
+        let fnDefinaRoute = function (sCurrentHash) {
+            switch (sCurrentHash) {
+                case "#actors":
+                    return "#actorDetails"
+                case "#starships":
+                    return "#starshipsDetails"
+
+            }
+        }
+        let sHash = window.location.hash
+        let sRoute = fnDefinaRoute(sHash)
+        oRouter.navigateTo(sRoute, true, sId)
+        /* let oSelectedActor = oModel.actors.find(function (oActor) {
+             return oActor.index == sId;
+         });
+         oSelectedActor.renderDetail();*/
+    }
 
 }
 
