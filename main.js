@@ -1,7 +1,6 @@
 loading()
-
 let oRouter = new Router()
-let oModel = new Model();
+let oModel = new Model()
 let sHash = window.location.hash
 if (!sHash)
     sHash = '#actors'
@@ -13,9 +12,6 @@ let oActorsAjax = $.ajax({
         oModel.actors = aActorsData.map((aActorsData, index) => {
             return new Actor(aActorsData, index)
         })
-        //fnRender(aActors)
-        // loading()
-        // console.log(aActors)
     }
 });
 let oStarshipsAjax = $.ajax({
@@ -23,7 +19,7 @@ let oStarshipsAjax = $.ajax({
     success: function (oResponse) {
         let aStarshipsData = oResponse.results;
         oModel.starships = aStarshipsData.map((oStarshipData, index) => {
-            return new Starship(oStarshipData, index);
+            return new Starship(oStarshipData, index)
         });
     }
 });
@@ -38,21 +34,23 @@ window.onload = function () {
         let oTableRow = event.currentTarget;
         let sId = oTableRow.getAttribute("id");
         let fnDefinaRoute = function (sCurrentHash) {
+            console.log('sCurrentHash', sCurrentHash)
             switch (sCurrentHash) {
                 case "#actors":
-                    return "#actorDetails"
+                    return "#actorDetail"
                 case "#starships":
-                    return "#starshipDetails"
-
+                    return "#starshipDetail"
+                case "#starshipDetail":
+                    return "#actorDetail"
+                case "#actorDetail":
+                    return "#starshipDetail"
             }
         }
         let sHash = window.location.hash
         let sRoute = fnDefinaRoute(sHash)
         oRouter.navigateTo(sRoute, true, sId)
-        /* let oSelectedActor = oModel.actors.find(function (oActor) {
-             return oActor.index == sId;
-         });
-         oSelectedActor.renderDetail();*/
+
+
     }
 
 }

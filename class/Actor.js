@@ -40,7 +40,6 @@ class Actor {
             async: false,
             success: (Response) => {
                 this.homeworldData = Response
-                //     console.log(this.homeworldData)
             }
         })
     }
@@ -114,8 +113,12 @@ class Actor {
     }
 
     static hideOrShow() {
-        document.querySelector(".list").classList.toggle('d-none')
-        document.querySelector("#actor-detail").classList.toggle('d-none')
+        /*      document.querySelector(".list").classList.toggle('d-none')
+             document.querySelector("#actor-detail").classList.toggle('d-none') */
+        document.querySelector(".list").classList.add('d-none')
+        document.querySelector("#actor-detail").classList.remove('d-none')
+        document.querySelector("#starship-detail").classList.add('d-none')
+
     }
 
     static HTML = '' //Переменная для сохранения базового html шаблона с ключами
@@ -158,7 +161,7 @@ class Actor {
 
         if (aData.length > 0) {
             return `
-          <table class="table table-dark table-striped table-hover custom-table shadow">
+          <table class="table caption-top">
           <thead>
               <tr>
                   <th scope="col">Имя персонажа</th>
@@ -170,16 +173,17 @@ class Actor {
               </tr>
           </thead>
           <tbody>
-       ${aData.map(oData => {
+       ${aData.map((oData, index) => {
+
                 return `
-                    <tr id="${this.index}" onclick="fnHandlePress(event)">
-            <th>${oData.name}</th>
-            <td>${oData.gender}</td>
-            <td>${oData.birth_year}</td>
-            <td>${oData.height}</td>
-            <td>${oData.mass}</td>
-            <td> oData.homeworldData.name </td>
-            </tr>
+                    <tr id="{index}" onclick="fnHandlePress(event)">
+                    <th>${oData.name}</th>
+                    <td>${oData.gender}</td>
+                    <td>${oData.birth_year}</td>
+                    <td>${oData.height}</td>
+                    <td>${oData.mass}</td>
+                    <td>${oData.homeworldData.name} </td>
+                    </tr>
                   `;
             }).join("")}
           </tbody>

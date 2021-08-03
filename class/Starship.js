@@ -15,14 +15,13 @@ class Starship {
     this.MGLT = oData.MGLT
     this.starship_class = oData.starship_class
 
-
     this.pilotsUrls = oData.pilots
     this.filmsUrls = oData.films
 
-
-
+    this.homeworldUrls = []
     this.filmsData = []
     this.pilotsData = []
+
   }
 
   getFilms() {
@@ -47,7 +46,6 @@ class Starship {
   }
 
   getPilots() {
-
     let aPromises = this.pilotsUrls.map(function (sUrl) {
       let oPromise = new Promise((resolve, reject) => {
         $.ajax({
@@ -60,16 +58,28 @@ class Starship {
           }
         });
       });
-
       return oPromise;
     });
+    /*     return Promise.all(aPromises).then((aData) => {
+          console.log(aData)
+          this.pilotsData = aData;
+        }); */
     return Promise.all(aPromises).then((aData) => {
-      console.log(aData)
       this.pilotsData = aData;
+      aData.forEach((obj) => {
+        this.homeworldUrls.push(obj.homeworld)
+        this.homeworldUrls.forEach((Urls, key) => {
+          $.ajax({
+            url: Urls,
+            async: false,
+            success: (Response) => {
+              this.pilotsData[key].homeworldData = Response
+            }
+          })
+        })
+      })
     });
   }
-
-
 
   static renderDetailTableRow(aData) {
     if (aData.length > 0) {
@@ -85,10 +95,10 @@ class Starship {
       </tr>
       </thead>
   
-            ${aData.map(oData => {
+            ${aData.map((oData) => {
         return `
               <tbody>
-                <tr>
+              <tr id="" onclick="fnHandlePress(event)">
                   <th>${oData.name}</th>
                   <td>${oData.model}</td>
                   <td>${oData.manufacturer}</td>
@@ -162,7 +172,7 @@ class Starship {
       Starship.HTML = document.querySelector("#starship-detail").innerHTML //Получаем шаблон 
     let sTemplate = Starship.HTML
 
-
+    console.log('oModel.actors-star',oModel.actors)
 
     //Заполняем шаблон
     Object.keys(this).forEach((sKey) => {
@@ -178,7 +188,9 @@ class Starship {
   }
 
   static hideOrShow() {
-    document.querySelector(".list").classList.toggle('d-none')
+   // document.querySelector(".list").classList.toggle('d-none')
+    document.querySelector(".list").classList.add('d-none')
+    document.querySelector("#actor-detail").classList.add('d-none')
     document.querySelector("#starship-detail").classList.toggle('d-none')
   }
 
