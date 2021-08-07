@@ -34,7 +34,6 @@ window.onload = function () {
         let oTableRow = event.currentTarget;
         let sId = oTableRow.getAttribute("id");
         let fnDefinaRoute = function (sCurrentHash) {
-            console.log('sCurrentHash', sCurrentHash)
             switch (sCurrentHash) {
                 case "#actors":
                     return "#actorDetail"

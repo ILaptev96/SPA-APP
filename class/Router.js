@@ -45,7 +45,6 @@ class Router {
                 let oSelectedStarships = oModel.starships.find(function (oStarship) {
                     return sId == oStarship.index
                 })
-                console.log(oSelectedStarships)
                 Promise.all([oSelectedStarships.getPilots(), oSelectedStarships.getFilms()]
                 ).then(function () {
                     oSelectedStarships.renderDetail()
