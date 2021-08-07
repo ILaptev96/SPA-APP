@@ -14,21 +14,9 @@ class Router {
         window.location.hash = arr[0]
         this.navigateTo(arr[0], false, arr[1])
 
-        /*     this.sCurrentHash = sHash;
-            window.location.hash = sHash;
-            this.navigateTo(sHash, false); */
     }
 
     navigateTo(sRoute, bChangeHash, sId) {
-        /*         window.location.hash = `${this.sCurrentHash}/${sId}`
-                let arr = sHash.split('/')
-                sRoute = arr[0]
-                sId = arr[1] */
-
-        /* if (!sId)
-            sId = 9 */
-    
-
         if (bChangeHash) {
             this.sPreviousHash = this.sCurrentHash
             this.aHistory.push(this.sPreviousHash)
@@ -37,13 +25,6 @@ class Router {
        
         }
  
- /*        let arr = sRoute.split('/')
-        sRoute = arr[0]
-        sId = arr[1] */
-
-        console.log('sId', sId)
-        console.log('oModel.starships-route', oModel.starships)
-        console.log('sRoute', sRoute)
         switch (sRoute) {
             case "#actors":
                 Actor.renderTable(oModel.actors)

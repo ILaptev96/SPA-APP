@@ -123,7 +123,7 @@ class Actor {
 
     }
 
-    static HTML = '' //Переменная для сохранения базового html шаблона с ключами
+    static HTML = '' 
 
     renderTableRow() {
         return `
