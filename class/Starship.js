@@ -60,14 +60,10 @@ class Starship {
       });
       return oPromise;
     });
-    /*     return Promise.all(aPromises).then((aData) => {
-          console.log(aData)
-          this.pilotsData = aData;
-        }); */
     return Promise.all(aPromises).then((aData) => {
       this.pilotsData = aData;
-      aData.forEach((obj) => {
-        this.homeworldUrls.push(obj.homeworld)
+      aData.forEach((oActor) => {
+        this.homeworldUrls.push(oActor.homeworld)
         this.homeworldUrls.forEach((Urls, key) => {
           $.ajax({
             url: Urls,
@@ -77,8 +73,14 @@ class Starship {
             }
           })
         })
+
+        if(!oModel.actors.find((obj) => obj.name == oActor.name)) {
+          oModel.actors.push(new Actor(oActor, parseInt(oActor.url.match(/\d+/)[0])))
+        }
       })
     });
+
+
   }
 
   static renderDetailTableRow(aData) {
@@ -98,7 +100,7 @@ class Starship {
             ${aData.map((oData) => {
         return `
               <tbody>
-              <tr id="" onclick="fnHandlePress(event)">
+              <tr id="${oData.url.match(/\d+/g)[0]}" onclick="fnHandlePress(event)">
                   <th>${oData.name}</th>
                   <td>${oData.model}</td>
                   <td>${oData.manufacturer}</td>
@@ -169,12 +171,10 @@ class Starship {
   renderDetail() {
 
     if (!Starship.HTML)
-      Starship.HTML = document.querySelector("#starship-detail").innerHTML //Получаем шаблон 
+      Starship.HTML = document.querySelector("#starship-detail").innerHTML
     let sTemplate = Starship.HTML
 
-    console.log('oModel.actors-star',oModel.actors)
 
-    //Заполняем шаблон
     Object.keys(this).forEach((sKey) => {
       sTemplate = sTemplate.replace('$' + `{${sKey}}`, this[sKey])
     })
@@ -182,13 +182,12 @@ class Starship {
     sTemplate = sTemplate.replace("${pilotsList}", Actor.renderDetailTableRow(this.pilotsData))
 
 
-    //Показываем шаблон
     document.querySelector("#starship-detail").innerHTML = sTemplate
     Starship.hideOrShow()
   }
 
   static hideOrShow() {
-   // document.querySelector(".list").classList.toggle('d-none')
+    // document.querySelector(".list").classList.toggle('d-none')
     document.querySelector(".list").classList.add('d-none')
     document.querySelector("#actor-detail").classList.add('d-none')
     document.querySelector("#starship-detail").classList.toggle('d-none')

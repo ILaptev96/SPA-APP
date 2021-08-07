@@ -61,7 +61,6 @@ class Actor {
         })
         return Promise.all(aPromises).then((aData) => {
             this.filmsData = aData
-            //  console.log(this.filmsData)
         })
     }
 
@@ -83,16 +82,19 @@ class Actor {
         });
         return Promise.all(aPromises).then((aData) => {
             this.starshipsData = aData
-            // console.log(this.starshipsData)
+
+              aData.forEach((oStarships) => {
+                if(!oModel.starships.find((obj) => obj.name == oStarships.name)) {
+                    oModel.starships.push(new Starship(oStarships, parseInt(oStarships.url.match(/\d+/)[0])))
+                  } 
+              }) 
         })
     }
 
 
     renderDetail() {
 
-        /* Actor.HTML || (Actor.HTML = document.querySelector("#actor-detail").innerHTML) */
-        if (!Actor.HTML) //Если шаблн не сохранен
-            Actor.HTML = document.querySelector("#actor-detail").innerHTML //Получаем шаблон 
+        if (!Actor.HTML) Actor.HTML = document.querySelector("#actor-detail").innerHTML
         let sTemplate = Actor.HTML
 
 
@@ -158,7 +160,6 @@ class Actor {
     }
 
     static renderDetailTableRow(aData) {
-
         if (aData.length > 0) {
             return `
           <table class="table caption-top">
@@ -173,10 +174,9 @@ class Actor {
               </tr>
           </thead>
           <tbody>
-       ${aData.map((oData, index) => {
-
+       ${aData.map(oData => {
                 return `
-                    <tr id="{index}" onclick="fnHandlePress(event)">
+                    <tr id="${oData.url.match(/\d+/g)[0]}" onclick="fnHandlePress(event)">
                     <th>${oData.name}</th>
                     <td>${oData.gender}</td>
                     <td>${oData.birth_year}</td>
